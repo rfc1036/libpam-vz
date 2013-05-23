@@ -1,0 +1,17 @@
+Source: libpam-vz
+Section: admin
+Priority: extra
+Maintainer: Marco d'Itri <md@linux.it>
+Standards-Version: 3.9.4
+Build-Depends: debhelper (>> 5.0.0), libpam-dev
+Vcs-Git: git://github.com/rfc1036/libpam-vz.git
+Vcs-Browser: https://github.com/rfc1036/libpam-vz
+
+Package: libpam-vz
+Architecture: i386 amd64
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: run programs in a OpenVZ Context
+ This PAM module switches the execution context of the calling process
+ to a running OpenVZ container, like the "vzctl enter" command.
+ It is tipically used by a daemon like ssh or cron running in the Host Node 
+ to transparently run itself and its child processes in a container.

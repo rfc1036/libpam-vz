@@ -1,0 +1,46 @@
+This PAM module switches the execution context of the calling process
+to a running OpenVZ container, like the "vzctl enter" command.
+It is tipically used by a daemon like ssh or cron running in the 
+Host Node to transparently run itself and its child processes in a 
+container.
+It is not supposed to be used with "standard" OpenVZ installations:
+the system must be designed to share some components between the HN
+and the affected contexts.
+
+To use this module you need to add a line like this to the PAM
+configuration file of the relevant daemon:
+
+session required pam_vz.so
+
+Then the daemon will enter the context with the CTID set to the UID or
+GID of the user.
+
+Beware: the module cannot be used with su(1) and interactive sessions,
+because the stdin/stdout/stderr file descriptors of the process will
+still be the ones in the HN.
+It also cannot work with FTP servers because they will try to open the
+data connections using the context IP address instead of the HN one.
+
+Valid options for the module are:
+
+* debug
+Enables verbose logging.
+
+* min_id=NUMBER
+* max_id=NUMBER
+Define the inclusive range of UIDs/GIDs which will cause entering the
+associated context.
+Default: min_id=10000, max_id=65533
+
+* use_as_ctid=[uid|gid]
+Chooses to use either the UID or the GID as the CTID.
+Default: use_as_ctid=uid
+
+* ctid_delta=number
+Adds or subtracts a number from the CTID.
+Default: ctid_delta=0
+
+* closelog
+Closes the syslog socket after entering the CT.
+This will break logging unless a syslog daemon is running in the CT.
+

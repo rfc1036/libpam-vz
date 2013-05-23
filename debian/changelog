@@ -1,0 +1,5 @@
+libpam-vz (0.01-1) unstable; urgency=low
+
+  * Initial release.
+
+ -- Marco d'Itri <md@linux.it>  Thu, 30 Jul 2009 04:34:47 +0200
